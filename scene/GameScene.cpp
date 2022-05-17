@@ -3,6 +3,7 @@
 #include <cassert>
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
+#include <math/Matrix4.h>
 
 GameScene::GameScene() {}
 
@@ -33,6 +34,19 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
+	// X, Y, Z方向のスケーリングを設定
+	worldTransform_.scale_ = { 5.0f, 5.0f, 5.0f };
+	// 回転
+	worldTransform_.rotation_ = { (3.14f / 4.0f), (3.14f / 4.0f), (0.0f) };
+	// 平行移動
+	worldTransform_.translation_ = { 10.0f, 10.0f, 10.0f };
+
+	// 行列の合成
+	worldTransform_.matWorld_.MatrixUpdate(worldTransform_.translation_, worldTransform_.rotation_, worldTransform_.scale_);
+
+	// 行列の転送
+	worldTransform_.TransferMatrix();
+
 }
 
 void GameScene::Update() {
@@ -65,30 +79,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	//// 3Dモデル描画
-	//model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 	// デバッグカメラの描画
 	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
 
-	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
-	// 青ライン
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 0, 0 }, { 0, 0, 10 }, { 0, 0, 1, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 10, 0, 0 }, { 10, 0, 10 }, { 0, 0, 1, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 10, 0 }, { 0, 10, 10 }, { 0, 0, 1, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 10, 10, 0 }, { 10, 10, 10 }, { 0, 0, 1, 1 });
-	
-	// 赤ライン
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 0, 0 }, { 10, 0, 0 }, { 1, 0, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 0, 10 }, { 10, 0, 10 }, { 1, 0, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 10, 0 }, { 10, 10, 0 }, { 1, 0, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 10, 10 }, { 10, 10, 10 }, { 1, 0, 0, 1 });
-	
-	// 緑ライン
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 0, 0 }, { 0, 10, 0 }, { 0, 1, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 10, 0, 0 }, { 10, 10, 0 }, { 0, 1, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 0, 0, 10 }, { 0, 10, 10 }, { 0, 1, 0, 1 });
-	PrimitiveDrawer::GetInstance()->DrawLine3d({ 10, 0, 10 }, { 10, 10, 10 }, { 0, 1, 0, 1 });
-	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 
