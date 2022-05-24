@@ -42,6 +42,37 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 度数法での表記
+	/// </summary>
+	/// <param name="angle">出したい角度</param>
+	/// <returns>その角度を返す</returns>
+	float XMConvertToRadians(float angle);
+
+	/// <summary>
+	/// 値が小さい方を返す
+	/// </summary>
+	/// <param name="num">比較したい値</param>
+	/// <param name="num2">最小値</param>
+	/// <returns></returns>
+	float MinNum(float num, float num2);
+
+	/// <summary>
+	/// 値が大きい方を返す
+	/// </summary>
+	/// <param name="num">比較したい値</param>
+	/// <param name="num2">最大値</param>
+	/// <returns></returns>
+	float MaxNum(float num, float num2);
+
+	/// <summary>
+	/// 最大値最小値を超えないようにする
+	/// </summary>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
+	/// <param name="num">比較したい値</param>
+	/// <returns>min, maxを超えない値を返す</returns>
+	float Clamp(float min, float max, float num);
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
