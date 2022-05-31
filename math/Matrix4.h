@@ -7,12 +7,15 @@
 //for (int i = 0; i < 4; i++) { matIdentity.m[i][i] = 1; }
 
 class Matrix4 {
-private:
+public:
 	Matrix4 ToMatIdentity()
 	{
 		Matrix4 matIdentity;
 
-		for (int i = 0; i < 4; i++) { matIdentity.m[i][i] = 1; }
+		matIdentity.m[0][0] = 1;
+		matIdentity.m[1][1] = 1;
+		matIdentity.m[2][2] = 1;
+		matIdentity.m[3][3] = 1;
 
 		return matIdentity;
 	}
@@ -24,7 +27,6 @@ private:
 		matScale.m[0][0] = scale.x;
 		matScale.m[1][1] = scale.y;
 		matScale.m[2][2] = scale.z;
-		matScale.m[3][3] = 1;
 
 		return matScale;
 	}
@@ -68,6 +70,7 @@ private:
 	Matrix4 ToMatRot(Vector3 rotation)
 	{
 		Matrix4 matRot = ToMatIdentity();
+
 		matRot *= ToMatRotZ(rotation.z);
 		matRot *= ToMatRotX(rotation.x);
 		matRot *= ToMatRotY(rotation.y);
@@ -76,14 +79,13 @@ private:
 
 	}
 
-	Matrix4 ToMatTrans(Vector3 transform)
+	Matrix4 ToMatTrans(Vector3 translation)
 	{
 		Matrix4 matTrans = ToMatIdentity();
 
-		matTrans.m[3][0] = transform.x;
-		matTrans.m[3][1] = transform.y;
-		matTrans.m[3][2] = transform.z;
-		matTrans.m[3][3] = 1;
+		matTrans.m[3][0] = translation.x;
+		matTrans.m[3][1] = translation.y;
+		matTrans.m[3][2] = translation.z;
 
 		return matTrans;
 	}
@@ -107,10 +109,11 @@ public:
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
 
-	void MatrixUpdate(Vector3 transform, Vector3 rotation, Vector3 scale)
+	void MatrixUpdate(Vector3 scale, Vector3 rotation, Vector3 translation)
 	{
+		*this *= ToMatIdentity();
 		*this *= ToMatScale(scale);
 		*this *= ToMatRot(rotation);
-		*this *= ToMatTrans(transform);
+		*this *= ToMatTrans(translation);
 	}
 };
