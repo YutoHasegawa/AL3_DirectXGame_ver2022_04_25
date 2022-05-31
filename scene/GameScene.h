@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -74,20 +75,6 @@ public: // メンバ関数
 	/// <returns>min, maxを超えない値を返す</returns>
 	float Clamp(float min, float max, float num);
 
-	enum PartId {
-		kRoot,	//大元
-		kSpine,	//脊髄
-		kChest,	//胸
-		kHead,	//頭
-		kArmL,	//左腕
-		kArmR,	//右腕
-		kHip,	//尻
-		kLegL,	//左足
-		kLegR,	//右足
-
-		kNumPartId
-	};
-
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -102,12 +89,14 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	// 3Dモデル
 	Model* model_ = nullptr;
-	// ワールドトランスフォーム
-	WorldTransform worldTransforms_[100];
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	//カメラ上方向の角度
 	float viewAngle = 0.0f;
+	// 自キャラ
+	Player* player_ = nullptr;
+	// デバッグカメラ有効
+	bool isDebugCameraActive_ = false;
 };
