@@ -53,7 +53,13 @@ public:
 	/// 攻撃(弾の発射)
 	/// </summary>
 	void Attack();
-
+	/// <summary>
+	/// ベクトルと行列の計算
+	/// </summary>
+	/// <param name="velocity">速度</param>
+	/// <param name="matWorld">更新後のワールド座標</param>
+	/// <returns></returns>
+	Vector3 direction(const Vector3& velocity, const Matrix4& matWorld);
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

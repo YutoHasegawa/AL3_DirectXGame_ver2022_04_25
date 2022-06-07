@@ -2,7 +2,6 @@
 
 void WorldTransform::MatrixUpdate()
 {
-	Initialize();
 	matWorld_.MatrixUpdate
 	(
 		scale_,

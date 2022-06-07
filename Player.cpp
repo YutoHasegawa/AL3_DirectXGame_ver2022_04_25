@@ -15,15 +15,24 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
-
 }
 
 void Player::Update()
 {
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+	// ワールドの初期化
+	worldTransform_.Initialize();
+
 	// キャラクター旋回処理
 	Rotate();
 	// キャラクター移動処理
 	Move();
+	// 行列更新
+	worldTransform_.MatrixUpdate();
 	// キャラクター攻撃処理
 	Attack();
 	// 弾更新
@@ -34,8 +43,6 @@ void Player::Update()
 	// キャラクター画面外処理
 	ScreenOut();
 
-	// 行列更新
-	worldTransform_.MatrixUpdate();
 
 	debugText_->SetPos(50, 50);
 	debugText_->Printf(
@@ -65,9 +72,6 @@ void Player::Draw(ViewProjection& viewProjection)
 
 void Player::Move()
 {
-	// ワールドの初期化
-	worldTransform_.Initialize();
-
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0, 0, 0 };
 
@@ -109,20 +113,6 @@ void Player::ScreenOut()
 
 }
 
-//void Player::MatrixUpdate()
-//{
-//	// 行列の更新
-//	worldTransform_.matWorld_.MatrixUpdate
-//	(
-//		worldTransform_.scale_,
-//		worldTransform_.rotation_,
-//		worldTransform_.translation_
-//	);
-//
-//	// ワールドの更新
-//	worldTransform_.TransferMatrix();
-//}
-
 void Player::Rotate()
 {
 	const float rotationSpeed = 0.01f;
@@ -141,11 +131,29 @@ void Player::Attack()
 {
 	if (input_->TriggerKey(DIK_SPACE))
 	{
+		// 弾の速度
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		// 速度ベクトルを自機の向きに合わせて回転させる
+		velocity = direction(velocity, worldTransform_.matWorld_);
+
 		// 弾を生成し、初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 		// 弾を登録する
 		bullets_.push_back(std::move(newBullet));
 	}
+}
+
+Vector3 Player::direction(const Vector3& velocity, const Matrix4& matWorld)
+{
+	Vector3 puts;
+
+	puts.x = velocity.x * matWorld.m[0][0] + velocity.y * matWorld.m[1][0] + velocity.z * matWorld.m[2][0];
+	puts.y = velocity.x * matWorld.m[0][1] + velocity.y * matWorld.m[1][1] + velocity.z * matWorld.m[2][1];
+	puts.z = velocity.x * matWorld.m[0][2] + velocity.y * matWorld.m[1][2] + velocity.z * matWorld.m[2][2];
+	
+	return puts;
 }
