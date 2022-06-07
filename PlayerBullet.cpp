@@ -1,6 +1,10 @@
 #include "PlayerBullet.h"
 #include "assert.h"
 
+PlayerBullet::~PlayerBullet()
+{
+}
+
 void PlayerBullet::Initialize(Model* model, const Vector3& position)
 {
 	// NULLポインタチェック

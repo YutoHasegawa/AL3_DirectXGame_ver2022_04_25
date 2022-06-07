@@ -8,6 +8,7 @@
 class PlayerBullet
 {
 public:
+	~PlayerBullet();
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>

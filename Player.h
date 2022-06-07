@@ -4,6 +4,8 @@
 #include "Input.h"
 #include "DebugText.h"
 #include <PlayerBullet.h>
+#include <memory>
+#include <list>
 
 /// <summary>
 /// 自キャラ
@@ -11,7 +13,6 @@
 class Player
 {
 public:
-
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -65,5 +66,5 @@ private:
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
 	// 弾
-	PlayerBullet* bullet_ = nullptr;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 };

@@ -27,8 +27,10 @@ void Player::Update()
 	// キャラクター攻撃処理
 	Attack();
 	// 弾更新
-	if (bullet_) { bullet_->Update(); }
-
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Update();
+	}
 	// キャラクター画面外処理
 	ScreenOut();
 
@@ -55,7 +57,10 @@ void Player::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 
 	// 弾描画
-	if (bullet_) { bullet_->Draw(viewProjection); }
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Draw(viewProjection);
+	}
 }
 
 void Player::Move()
@@ -65,7 +70,7 @@ void Player::Move()
 
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0, 0, 0 };
-	
+
 	// 移動量
 	const float kCharacter = 0.2f;
 
@@ -134,13 +139,13 @@ void Player::Rotate()
 
 void Player::Attack()
 {
-	if (input_->PushKey(DIK_SPACE))
+	if (input_->TriggerKey(DIK_SPACE))
 	{
 		// 弾を生成し、初期化
-		PlayerBullet* newBullet = new PlayerBullet();
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		// 弾を登録する
-		bullet_ = newBullet;
+		bullets_.push_back(std::move(newBullet));
 	}
 }
