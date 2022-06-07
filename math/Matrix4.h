@@ -1,10 +1,8 @@
 ﻿#pragma once
+#include <cmath>
 /// <summary>
 /// 行列
 /// </summary>
-
-// Matrix4 matIdentity;
-//for (int i = 0; i < 4; i++) { matIdentity.m[i][i] = 1; }
 
 class Matrix4 {
 public:

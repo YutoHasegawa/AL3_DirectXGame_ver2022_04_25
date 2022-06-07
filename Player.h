@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include "Input.h"
 #include "DebugText.h"
+#include <PlayerBullet.h>
 
 /// <summary>
 /// 自キャラ
@@ -37,12 +38,21 @@ public:
 	/// <summary>
 	/// 行列の合成
 	/// </summary>
-	void MatrixUpdate();
+	//void MatrixUpdate();
 
 	/// <summary>
 	/// 画面外処理
 	/// </summary>
 	void ScreenOut();
+	/// <summary>
+	/// 回転
+	/// </summary>
+	void Rotate();
+	/// <summary>
+	/// 攻撃(弾の発射)
+	/// </summary>
+	void Attack();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -54,4 +64,6 @@ private:
 	Input* input_ = nullptr;
 	// デバッグテキスト
 	DebugText* debugText_ = nullptr;
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 };

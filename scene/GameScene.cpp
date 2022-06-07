@@ -52,28 +52,6 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
-
-	// デバッグカメラ
-//#ifdef _DEBUG
-//	if (input_->TriggerKey(DIK_Q))
-//	{
-//		if (!isDebugCameraActive_)
-//		{
-//			isDebugCameraActive_ = true;
-//		}
-//		else
-//		{
-//			isDebugCameraActive_ = false;
-//		}
-//	}
-//#endif // DEBUG
-//	if (isDebugCameraActive_)
-//	{
-//		debugCamera_->Update();
-//		viewProjection_.matView = ;
-//		viewProjection_.matProjection = 
-//	}
-
 }
 
 void GameScene::Draw() {
