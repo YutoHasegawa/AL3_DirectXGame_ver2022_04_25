@@ -49,7 +49,7 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_);
 
 	// 初期座標
-	Vector3 position = { 0, 0, 0 };
+	Vector3 position = { 0, 2.0f, 10.0f };
 	// 敵キャラの生成
 	enemy_ = std::make_unique<Enemy>();
 	// 敵キャラの初期化

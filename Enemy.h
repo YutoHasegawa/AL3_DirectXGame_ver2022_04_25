@@ -1,6 +1,8 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "DebugText.h"
+
 
 /// <summary>
 /// 敵
@@ -24,6 +26,10 @@ public:
 	/// </summary>
 	void Draw(const ViewProjection& viewProjection);
 
+	void ApproachUpdate();
+
+	void LeaveUpdate();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -31,4 +37,17 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	enum class Phase
+	{
+		Approach,		//接近する
+		Leave,			//離脱する
+	};
+	// フェーズ
+	Phase phase_ = Phase::Approach;
+	//
+	Vector3 eMove = { 0, 0, 0 };
+	//
+	const float eMoveSpeed = 0.03f;
+
 };
+

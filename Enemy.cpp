@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include "Enemy.h"
 #include "assert.h"
 
 //Enemy::Enemy()
@@ -27,17 +26,16 @@ void Enemy::Update()
 	// ワールドの初期化
 	worldTransform_.Initialize();
 
-	 float eMoveSpeed = 2.0f;
-	static float timer = 0;
-	timer += 0.1;
-	if (timer >= 2.4)eMoveSpeed = 0;
-
-	Vector3 eMove = { 0.0f, 0.0f, eMoveSpeed };
-
-
-	// 座標を移動させる(1フレーム分の移動量を足しこむ)
-	worldTransform_.translation_ -= eMove;
-
+	switch (phase_)
+	{
+	case Phase::Approach:
+	default:
+		ApproachUpdate();
+		break;
+	case Phase::Leave:
+		LeaveUpdate();
+		break;
+	}
 	// 行列の更新
 	worldTransform_.MatrixUpdate();
 }
@@ -46,4 +44,23 @@ void Enemy::Update()
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+}
+
+void Enemy::ApproachUpdate()
+{
+	eMove = { 0.0f, 0.0f, -eMoveSpeed };
+	// 移動(ベクトルを加算)
+	worldTransform_.translation_ += eMove;
+	// 規定に位置に達したら離脱
+	if (worldTransform_.translation_.z < -30.0f)
+	{
+		phase_ = Phase::Leave;
+	}
+}
+
+void Enemy::LeaveUpdate()
+{
+	eMove = { -eMoveSpeed, eMoveSpeed, 0.0f };
+	// 移動(ベクトルを加算)
+	worldTransform_.translation_ += eMove;
 }
