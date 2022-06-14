@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -96,7 +97,9 @@ private: // メンバ変数
 	//カメラ上方向の角度
 	float viewAngle = 0.0f;
 	// 自キャラ
-	Player* player_ = nullptr;
+	std::unique_ptr<Player> player_;
+	// 敵キャラ
+	std::unique_ptr<Enemy> enemy_;
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 };

@@ -44,14 +44,23 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	// 自キャラの生成
-	player_ = new Player();
+	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
+
+	// 初期座標
+	Vector3 position = { 0, 0, 0 };
+	// 敵キャラの生成
+	enemy_ = std::make_unique<Enemy>();
+	// 敵キャラの初期化
+	enemy_->initialize(model_, position);
 }
 
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
+	// 敵キャラの更新
+	enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -83,6 +92,7 @@ void GameScene::Draw() {
 	// デバッグカメラの描画
 	//debugCamera_->GetViewProjection()
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 
