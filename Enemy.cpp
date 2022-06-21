@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "assert.h"
+#include "Player.h"
 
 //Enemy::Enemy()
 //{
@@ -97,9 +98,22 @@ void Enemy::LeaveUpdate()
 
 void Enemy::Fire()
 {
+	assert(player_);
+
 	// 弾の速度
-	const float kBulletSpeed = 1.0f;
-	Vector3 velocity(0, 0, -kBulletSpeed);
+	const float kBulletSpeed = 0.5f;
+
+	// 自キャラのワールド座標を取得する
+	Vector3 playerPosition_ = player_->GetWorldPosition();
+	// 敵キャラのワールド座標を取得する
+	Vector3 enemyPosition_ = GetWorldPosition();
+	// 敵キャラ->自キャラの差分ベクトルを求める
+	Vector3 distance_ = playerPosition_ - enemyPosition_;
+	// ベクトルの正規化
+	distance_.normalize();
+	// ベクトルの長さを、速さに合わせる
+	Vector3 velocity = kBulletSpeed * distance_;
+
 
 	//// 速度ベクトルを自機の向きに合わせて回転させる
 	//velocity = direction(velocity, worldTransform_.matWorld_);
@@ -116,4 +130,16 @@ void Enemy::ApproachInitialize()
 {
 	// 発射タイマーを初期化
 	fireTimer_ = kFireInterval;
+}
+
+Vector3 Enemy::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
 }

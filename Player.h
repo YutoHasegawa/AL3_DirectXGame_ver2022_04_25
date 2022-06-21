@@ -60,6 +60,9 @@ public:
 	/// <param name="matWorld">更新後のワールド座標</param>
 	/// <returns></returns>
 	Vector3 direction(const Vector3& velocity, const Matrix4& matWorld);
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

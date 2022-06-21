@@ -5,6 +5,10 @@
 #include <EnemyBullet.h>
 #include <memory>
 #include <list>
+#include "Vector3.h"
+
+// 自機クラスの前方宣言
+class Player;
 
 /// <summary>
 /// 敵
@@ -50,6 +54,13 @@ public:
 	/// 接近フェーズ初期化
 	/// </summary>
 	void ApproachInitialize();
+
+	//セッター
+	void SetPlayer(Player* player) { player_ = player; }
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -72,5 +83,7 @@ private:
 	int32_t fireTimer_ = 0;
 	// 弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	// 自キャラ
+	Player* player_ = nullptr;
 };
 

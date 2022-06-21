@@ -54,6 +54,8 @@ void GameScene::Initialize() {
 	enemy_ = std::make_unique<Enemy>();
 	// 敵キャラの初期化
 	enemy_->initialize(model_, position);
+	// 敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_.get());
 }
 
 void GameScene::Update() {
