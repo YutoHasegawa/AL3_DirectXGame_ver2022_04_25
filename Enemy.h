@@ -2,7 +2,9 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "DebugText.h"
-
+#include <EnemyBullet.h>
+#include <memory>
+#include <list>
 
 /// <summary>
 /// 敵
@@ -26,10 +28,28 @@ public:
 	/// </summary>
 	void Draw(const ViewProjection& viewProjection);
 
+	/// <summary>
+	/// 敵に近づく
+	/// </summary>
 	void ApproachUpdate();
 
+	/// <summary>
+	/// 画面外に避ける
+	/// </summary>
 	void LeaveUpdate();
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Fire();
+
+	// 発射間隔
+	static const int kFireInterval = 60;
+
+	/// <summary>
+	/// 接近フェーズ初期化
+	/// </summary>
+	void ApproachInitialize();
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -44,10 +64,13 @@ private:
 	};
 	// フェーズ
 	Phase phase_ = Phase::Approach;
-	//
+	// 移動
 	Vector3 eMove = { 0, 0, 0 };
-	//
-	const float eMoveSpeed = 0.03f;
-
+	// 移動する速さ
+	const float eMoveSpeed = 0.1f;
+	// 発射タイマー
+	int32_t fireTimer_ = 0;
+	// 弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 };
 
