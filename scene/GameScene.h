@@ -76,6 +76,18 @@ public: // メンバ関数
 	/// <returns>min, maxを超えない値を返す</returns>
 	float Clamp(float min, float max, float num);
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollisions();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="posA"></param>
+	/// <param name="posB"></param>
+	/// <returns></returns>
+	bool Collisions(Vector3 posA, Vector3 posB);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

@@ -13,7 +13,7 @@ void Enemy::initialize(Model* model, const Vector3& position)
 
 	// テクスチャの読み込み
 	model_ = model;
-	textureHandle_ = TextureManager::Load("mario.jpg");
+	textureHandle_ = TextureManager::Load("pittan.jpg");
 
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
@@ -80,7 +80,7 @@ void Enemy::ApproachUpdate()
 	// 発射タイマーカウントダウン
 	fireTimer_--;
 	// 指定時間に達した
-	if (fireTimer_ < 0)
+	if (fireTimer_ <= 0)
 	{
 		// 弾を発射
 		Fire();
@@ -142,4 +142,8 @@ Vector3 Enemy::GetWorldPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Enemy::OnCollision()
+{
 }

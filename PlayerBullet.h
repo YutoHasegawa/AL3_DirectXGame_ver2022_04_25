@@ -31,6 +31,15 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool IsDead() const { return isDead_; }
+
+	/// <summary>
+	/// 衝突したら呼び出されるコールバック関数
+	/// </summary>
+	void OnCollision();
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -41,7 +50,7 @@ private:
 	// 速度
 	Vector3 velocity_;
 	// 寿命<frm>
-	static const int32_t kLifeTime = 60 * 3;
+	static const int32_t kLifeTime = 60 * 1;
 	// デスタイマー
 	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ

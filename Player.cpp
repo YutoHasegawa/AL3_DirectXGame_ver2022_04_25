@@ -31,6 +31,8 @@ void Player::Update()
 	Rotate();
 	// キャラクター移動処理
 	Move();
+	// キャラクター画面外処理
+	ScreenOut();
 	// 行列更新
 	worldTransform_.MatrixUpdate();
 	// キャラクター攻撃処理
@@ -40,8 +42,6 @@ void Player::Update()
 	{
 		bullet->Update();
 	}
-	// キャラクター画面外処理
-	ScreenOut();
 
 
 	debugText_->SetPos(50, 50);
@@ -154,7 +154,7 @@ Vector3 Player::direction(const Vector3& velocity, const Matrix4& matWorld)
 	puts.x = velocity.x * matWorld.m[0][0] + velocity.y * matWorld.m[1][0] + velocity.z * matWorld.m[2][0];
 	puts.y = velocity.x * matWorld.m[0][1] + velocity.y * matWorld.m[1][1] + velocity.z * matWorld.m[2][1];
 	puts.z = velocity.x * matWorld.m[0][2] + velocity.y * matWorld.m[1][2] + velocity.z * matWorld.m[2][2];
-	
+
 	return puts;
 }
 
@@ -168,4 +168,8 @@ Vector3 Player::GetWorldPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Player::OnCollision()
+{
 }

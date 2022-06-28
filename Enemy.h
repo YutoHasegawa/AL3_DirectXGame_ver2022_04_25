@@ -13,7 +13,7 @@ class Player;
 /// <summary>
 /// 敵
 /// </summary>
-class Enemy 
+class Enemy
 {
 public:
 	//Enemy();
@@ -21,12 +21,12 @@ public:
 	/// 初期化
 	/// </summary>
 	void initialize(Model* model, const Vector3& position);
-	
+
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
-	
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -48,7 +48,7 @@ public:
 	void Fire();
 
 	// 発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 120;
 
 	/// <summary>
 	/// 接近フェーズ初期化
@@ -60,6 +60,14 @@ public:
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// 衝突したら呼び出されるコールバック関数
+	/// </summary>
+	void OnCollision();
+
+	// 弾リストを取得
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 
 private:
 	// ワールド変換データ
@@ -78,9 +86,9 @@ private:
 	// 移動
 	Vector3 eMove = { 0, 0, 0 };
 	// 移動する速さ
-	const float eMoveSpeed = 0.1f;
+	const float eMoveSpeed = 0.0f;
 	// 発射タイマー
-	int32_t fireTimer_ = 0;
+	int32_t fireTimer_ = 120;
 	// 弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	// 自キャラ
