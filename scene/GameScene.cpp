@@ -11,6 +11,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete model_;
 	delete debugCamera_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -56,9 +57,17 @@ void GameScene::Initialize() {
 	enemy_->initialize(model_, position);
 	// 敵キャラに自キャラのアドレスを渡す
 	enemy_->SetPlayer(player_.get());
+	// 天球の作成
+	skydome_ = std::make_unique<Skydome>();
+	// 3Dモデルの生成
+	modelSkydome_ = Model::CreateFromOBJ("sky", true);
+	// 天球の初期化
+	skydome_->Initialize(modelSkydome_);
 }
 
 void GameScene::Update() {
+	//天球の更新
+	skydome_->Update();
 	// 自キャラの更新
 	player_->Update();
 	// 敵キャラの更新
@@ -106,6 +115,7 @@ void GameScene::Draw() {
 	/// </summary>
 	// デバッグカメラの描画
 	//debugCamera_->GetViewProjection()
+	skydome_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理

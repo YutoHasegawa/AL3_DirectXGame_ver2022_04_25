@@ -103,6 +103,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="skydome.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="skydome.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

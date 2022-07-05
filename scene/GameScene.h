@@ -12,6 +12,7 @@
 #include "DebugCamera.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -89,6 +90,7 @@ public: // メンバ関数
 	/// <returns></returns>
 	bool Collisions(Vector3 posA, Vector3 posB);
 
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -114,4 +116,8 @@ private: // メンバ変数
 	std::unique_ptr<Enemy> enemy_;
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
+	// 天球
+	std::unique_ptr<Skydome> skydome_;
+	// 3Dモデル
+	Model* modelSkydome_ = nullptr;
 };
