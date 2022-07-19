@@ -88,6 +88,17 @@ public:
 		return matTrans;
 	}
 		
+	Vector3 direction(const Vector3& velocity, const Matrix4& matWorld)
+	{
+		Vector3 puts;
+
+		puts.x = velocity.x * matWorld.m[0][0] + velocity.y * matWorld.m[1][0] + velocity.z * matWorld.m[2][0];
+		puts.y = velocity.x * matWorld.m[0][1] + velocity.y * matWorld.m[1][1] + velocity.z * matWorld.m[2][1];
+		puts.z = velocity.x * matWorld.m[0][2] + velocity.y * matWorld.m[1][2] + velocity.z * matWorld.m[2][2];
+
+		return puts;
+	}
+
 public:
 	// 行x列
 	float m[4][4];
@@ -114,3 +125,4 @@ public:
 		*this *= ToMatTrans(translation);
 	}
 };
+

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "assert.h"
+#include "MathUtility.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle)
 {
@@ -7,6 +8,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 	assert(model);
 
 	model_ = model;
+	worldTransform_.translation_ = { 0, 0, 30.0f };
 	textureHandle_ = textureHandle;
 
 	// シングルトンインスタンスを取得する
@@ -26,7 +28,6 @@ void Player::Update()
 		});
 	// ワールドの初期化
 	worldTransform_.Initialize();
-
 	// キャラクター旋回処理
 	Rotate();
 	// キャラクター移動処理
@@ -135,12 +136,14 @@ void Player::Attack()
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 
+		Vector3 PlayerWorldTransform_ = MathUtility::Vector3TransformCoord(worldTransform_.translation_, worldTransform_.matWorld_);
+
 		// 速度ベクトルを自機の向きに合わせて回転させる
 		velocity = direction(velocity, worldTransform_.matWorld_);
 
 		// 弾を生成し、初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(model_, PlayerWorldTransform_, velocity);
 
 		// 弾を登録する
 		bullets_.push_back(std::move(newBullet));

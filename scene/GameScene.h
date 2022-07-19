@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -120,4 +121,6 @@ private: // メンバ変数
 	std::unique_ptr<Skydome> skydome_;
 	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
+	// レールカメラ
+	std::unique_ptr<RailCamera> railCamera_;
 };

@@ -6,6 +6,7 @@
 #include <PlayerBullet.h>
 #include <memory>
 #include <list>
+#include "RailCamera.h"
 
 /// <summary>
 /// 自キャラ
@@ -72,6 +73,7 @@ public:
 	// 弾リストを取得
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
+	void SetPlayer(WorldTransform *worldTransform) { worldTransform_.parent_ = worldTransform; }
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 	std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-
+	
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
@@ -51,6 +51,10 @@ void GameScene::Initialize() {
 
 	// 初期座標
 	Vector3 position = { 10.0f, 2.0f, 50.0f };
+	// カメラの初期座標
+	Vector3 cameraPosition = { 0, 0, -50.0f };
+	Vector3 cameraRotation = { 0, 0, 0 };
+
 	// 敵キャラの生成
 	enemy_ = std::make_unique<Enemy>();
 	// 敵キャラの初期化
@@ -63,11 +67,24 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("sky", true);
 	// 天球の初期化
 	skydome_->Initialize(modelSkydome_);
+	// レールカメラの初期化
+	railCamera_ = std::make_unique<RailCamera>();
+	railCamera_->Initialize(cameraPosition, cameraRotation);
+	//viewProjection_ = railCamera_->GetViewProjection();
+	// 親子関係
+	player_->SetPlayer(railCamera_->GetWorldTransForm());
 }
 
 void GameScene::Update() {
 	//天球の更新
 	skydome_->Update();
+	// レールカメラの更新
+	// railcameraをゲームシーンのカメラに適応する
+	viewProjection_.matView = railCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+	// ビュープロジェクションの転送
+	viewProjection_.TransferMatrix();
+	railCamera_->Update();
 	// 自キャラの更新
 	player_->Update();
 	// 敵キャラの更新
