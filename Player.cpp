@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "assert.h"
-#include "MathUtility.h"
+//#include "MathUtility.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle)
 {
@@ -136,14 +136,14 @@ void Player::Attack()
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 
-		Vector3 PlayerWorldTransform_ = MathUtility::Vector3TransformCoord(worldTransform_.translation_, worldTransform_.matWorld_);
+		//Vector3 PlayerWorldTransform_ = MathUtility::Vector3TransformCoord(worldTransform_.translation_, worldTransform_.matWorld_);
 
 		// 速度ベクトルを自機の向きに合わせて回転させる
 		velocity = direction(velocity, worldTransform_.matWorld_);
 
 		// 弾を生成し、初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, PlayerWorldTransform_, velocity);
+		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
 		bullets_.push_back(std::move(newBullet));
@@ -166,9 +166,9 @@ Vector3 Player::GetWorldPosition()
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
 }
