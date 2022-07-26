@@ -6,9 +6,13 @@
 #include <memory>
 #include <list>
 #include "Vector3.h"
+#include "GameScene.h"
 
 // 自機クラスの前方宣言
 class Player;
+
+// GameSceneの前方宣言
+class GameScene;
 
 /// <summary>
 /// 敵
@@ -66,8 +70,10 @@ public:
 	/// </summary>
 	void OnCollision();
 
-	// 弾リストを取得
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+	//// 弾リストを取得
+	//const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 	// ワールド変換データ
@@ -89,9 +95,11 @@ private:
 	const float eMoveSpeed = 0.0f;
 	// 発射タイマー
 	int32_t fireTimer_ = 120;
-	// 弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	//// 弾
+	//std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	// 自キャラ
 	Player* player_ = nullptr;
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
 

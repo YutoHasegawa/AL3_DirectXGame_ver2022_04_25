@@ -27,11 +27,11 @@ void Enemy::initialize(Model* model, const Vector3& position)
 
 void Enemy::Update()
 {
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
-		{
-			return bullet->IsDead();
-		});
+	//// デスフラグの立った弾を削除
+	//bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
+	//	{
+	//		return bullet->IsDead();
+	//	});
 	// ワールドの初期化
 	worldTransform_.Initialize();
 
@@ -48,22 +48,22 @@ void Enemy::Update()
 	// 行列の更新
 	worldTransform_.MatrixUpdate();
 
-	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-	{
-		bullet->Update();
-	}
+	//// 弾更新
+	//for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	//{
+	//	bullet->Update();
+	//}
 }
 
 
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// 弾描画
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-	{
-		bullet->Draw(viewProjection);
-	}
+	//// 弾描画
+	//for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	//{
+	//	bullet->Draw(viewProjection);
+	//}
 }
 
 void Enemy::ApproachUpdate()
@@ -123,7 +123,8 @@ void Enemy::Fire()
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 	// 弾を登録する
-	bullets_.push_back(std::move(newBullet));
+	gameScene_->AddEnemyBullet(std::move(newBullet));
+	//bullets_.push_back(std::move(newBullet));
 }
 
 void Enemy::ApproachInitialize()

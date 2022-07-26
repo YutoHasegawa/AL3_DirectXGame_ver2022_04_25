@@ -89,19 +89,35 @@ void GameScene::Update() {
 	player_->Update();
 	// 敵キャラの更新
 	enemy_->Update();
+
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+
+	// 弾更新
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	enemys_.push_back(std::move(enemy_));
+
 	// 当たり判定の更新
 	CheckAllCollisions();
 
 
-	// 弾の管理
-	int count = 0;
-	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetBullets();
-	for (const std::unique_ptr<EnemyBullet>& eBullet : enemyBullets)
-	{
-		count++;
-	}
-	debugText_->SetPos(0, 0);
-	debugText_->Printf("%d", count);
+	//// 弾の管理
+	//int count = 0;
+	//const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetBullets();
+	//for (const std::unique_ptr<EnemyBullet>& eBullet : enemyBullets)
+	//{
+	//	count++;
+	//}
+	//debugText_->SetPos(0, 0);
+	//debugText_->Printf("%d", count);
+
 }
 
 void GameScene::Draw() {
@@ -135,6 +151,11 @@ void GameScene::Draw() {
 	skydome_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	// 弾描画
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+		bullet->Draw(viewProjection_);
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 
@@ -202,7 +223,7 @@ void GameScene::CheckAllCollisions()
 	// 自弾リストの取得
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
 	// 敵弾リストの取得
-	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetBullets();
+	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = bullets_;
 
 #pragma region 自キャラと敵弾の当たり判定
 	// 自キャラの座標
@@ -275,4 +296,10 @@ void GameScene::CheckAllCollisions()
 bool GameScene::Collisions(Vector3 posA, Vector3 posB)
 {
 	return (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) + (posB.z - posA.z) * (posB.z - posA.z) < 0.5f;
+}
+
+void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet)
+{
+	// リストに登録する
+	bullets_.push_back(std::move(enemyBullet));
 }

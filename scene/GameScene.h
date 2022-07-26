@@ -11,10 +11,11 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "skydome.h"
 #include "RailCamera.h"
+#include <list>
 
+#include "Enemy.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -91,6 +92,11 @@ public: // メンバ関数
 	/// <returns></returns>
 	bool Collisions(Vector3 posA, Vector3 posB);
 
+	/// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name="enemyBullet">敵弾</param>
+	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -114,7 +120,12 @@ private: // メンバ変数
 	// 自キャラ
 	std::unique_ptr<Player> player_;
 	// 敵キャラ
+	//std::unique_ptr<Enemy> enemy_ = std::make_unique<Enemy>();
+
 	std::unique_ptr<Enemy> enemy_;
+
+
+	//std::list<std::unique_ptr<Enemy>> enemys_;
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	// 天球
@@ -123,4 +134,6 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	// レールカメラ
 	std::unique_ptr<RailCamera> railCamera_;
+	// 弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 };
