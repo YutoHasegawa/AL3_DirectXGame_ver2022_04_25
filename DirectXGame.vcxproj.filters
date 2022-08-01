@@ -84,9 +84,6 @@
     <ClCompile Include="WorldTransform.cpp">
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -97,6 +94,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="RailCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,9 +188,6 @@
     <ClInclude Include="PlayerBullet.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -198,6 +195,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="RailCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

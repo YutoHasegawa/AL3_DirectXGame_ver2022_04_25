@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include "Enemy.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
@@ -14,8 +15,9 @@
 #include "skydome.h"
 #include "RailCamera.h"
 #include <list>
+#include <cstdlib>
+#include <sstream>
 
-#include "Enemy.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -98,6 +100,22 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
 
+	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
+	/// 敵発生
+	/// </summary>
+	/// <param name="a">ポジション</param>
+	void enemyPop(Vector3 position);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -120,12 +138,8 @@ private: // メンバ変数
 	// 自キャラ
 	std::unique_ptr<Player> player_;
 	// 敵キャラ
-	//std::unique_ptr<Enemy> enemy_ = std::make_unique<Enemy>();
-
-	std::unique_ptr<Enemy> enemy_;
-
-
-	//std::list<std::unique_ptr<Enemy>> enemys_;
+	
+	std::list<std::unique_ptr<Enemy>> enemys_;
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	// 天球
@@ -136,4 +150,10 @@ private: // メンバ変数
 	std::unique_ptr<RailCamera> railCamera_;
 	// 弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
+	// 待機中フラグ
+	bool waitFlag_ = false;
+	// 待機タイマー
+	int waitTimer_ = 0;
 };

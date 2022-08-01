@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "assert.h"
 #include "Player.h"
-
+#include "GameScene.h"
 //Enemy::Enemy()
 //{
 //}
@@ -147,4 +147,5 @@ Vector3 Enemy::GetWorldPosition()
 
 void Enemy::OnCollision()
 {
+	isDead_ = true;
 }

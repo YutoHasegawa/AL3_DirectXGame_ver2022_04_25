@@ -2,11 +2,10 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "DebugText.h"
-#include <EnemyBullet.h>
+#include "EnemyBullet.h"
 #include <memory>
-#include <list>
 #include "Vector3.h"
-#include "GameScene.h"
+
 
 // 自機クラスの前方宣言
 class Player;
@@ -75,6 +74,8 @@ public:
 
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
+
+	bool IsDead() const { return isDead_; }
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -101,5 +102,7 @@ private:
 	Player* player_ = nullptr;
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
+	// デスフラグ
+	bool isDead_ = false;
 };
 
